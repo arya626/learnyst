@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
-// import './App.css';
+import './App.css';
 import Display from './Display';
 import Math from 'mathjs';
 
@@ -30,15 +30,19 @@ var afterdec = "";
 var dS = "";
 var index;
 
-
+var chVal = 0;
 class App extends Component {
   constructor(props) {
     super(props)
     // this.myRef = React.createRef();
     this.btnRef = React.createRef();
     this.state = {
-      inBox: [0],
-      inBox1: []
+      inBox: [strEmpty],
+      inBox1: [],
+      mem:"hide",
+      selectedOption: "deg",
+      
+      
     }
 
   }
@@ -46,21 +50,26 @@ class App extends Component {
 
 
   buttonNumeric = e => {
-    var value = e.target.getAttribute('value')
-    var inBoxVal = this.state.inBox.join('')
-    var inBox1Val = this.state.inBox1;
-
+    var value = e.target.getAttribute('value');
+    var inBoxVal = this.state.inBox.join('');
+    var inBox1Val = this.state.inBox1.join('');
+   
+    
+    // var character = inBox1Val.substring(inBox1Val.length-1);
+//     if(chVal === 1 && inBoxVal.length > 0){
+// console.log("hey");
+//       this.setState({
+//       inBox : [""],
+//       });
+//     }
     if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
     if (boolClear) {
-      console.log("BoolClear Value", boolClear)
-      this.setState({
-        inBox: [strEmpty],
-      });
-      console.log("Value in inBox", this.state.inBox.join(''))
+      inBoxVal = 0;
       boolClear = false;
     }
 
-    var str = this.state.inBox.join('');
+    var str = inBoxVal;
+    // console.log("str"+str);
     if (str.length > maxLength) return;
     if (value === "." && str.indexOf('.') >= 0 && inBox1Val.length !== 0) {
       this.setState({
@@ -72,18 +81,20 @@ class App extends Component {
     else if (value === "." && str.indexOf('.') >= 0)
       return;
     this.displayCheck();
-
+  
     if (parseInt(str) !== strEmpty || str.length > 1 || value === ".") {
-      console.log("str value", str)
-      console.log("strEmpty value", strEmpty)
-      console.log("Updating")
-      console.log("Len inside if", str.length)
+      // console.log("str value", str);
+      // console.log("strEmpty value", strEmpty)
+      // console.log("Updating")
+      // console.log("Len inside if", str.length)
       this.setState({
-        inBox: [str + value],
+        inBox: [str+value],
+        // inBox1:[value],
       });
       stackVal1 = 1;
     }
     else {
+      // console.log("str value1", str);
       this.setState({
 
         inBox: [value],
@@ -136,6 +147,7 @@ class App extends Component {
           this.opcodeChange();
         this.operation();
         stackVal1 = 0;
+       
         break;
       case '-': this.stackCheck(value);
         newOpCode = 2;
@@ -360,14 +372,71 @@ class App extends Component {
     this.setState({
       inBox1: [displayString],
     });
-
+ 
+    // this.setState({
+    //   inBox:[],
+    // });
   }
 
   //memory function not done
+btnMemory = e => {
+  var value = e.target.getAttribute('value');
+  var inBoxVal = this.state.inBox.join('');
+  var x = parseFloat(inBoxVal);
+  if(inBoxVal===""){
+    x = 0;
+  }
+  var retVal = 0;
+  if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
+  switch(value){
+    case 'MS' : memory = x;
+                this.setState({
+                  mem : "show",
+                })
+                retVal = inBoxVal;
+                break; 
+    case 'M+' : memory=x+parseFloat(memory);  
+                this.setState({
+                  mem : "show",
+                })
+                retVal = inBoxVal;
+                break;
+    case 'MR' : retVal = parseFloat(memory);
+                stackVal1 = 1;
+                break;
+    case 'MC': memory = 0;
+                this.setState({
+                  mem : "hide",
+                })
+                retVal = inBoxVal;
+                break;
+    case 'M-' : this.setState({
+                mem : "show",
+                 }) 
+                memory = parseFloat(memory) - x;
+                retVal = inBoxVal;
+                break;
+    default : break;
 
+  }
+  if(retVal !== strEmpty){
+    this.setState({
+      inBox : [retVal],
+    })
+  }else{
+    this.setState({
+      inBox : [retVal],
+    })
+  }
+  boolClear = true;
+
+
+}
 
 
   stackCheck = (text) => {
+    console.log("Stackval1",stackVal1);
+    console.log("hey");
     var inBox1Val = this.state.inBox1.join('');
     var inBoxVal = this.state.inBox.join('');
     if (stackVal1 === 2) {
@@ -390,6 +459,7 @@ class App extends Component {
       }
       var upDinbox1 = inBox1Val.substring(0, inBox1Val.length - x);
       if (!(inBox1Val.indexOf("e+") > -1))
+      console.log("Inside update");
         this.setState({
           inBox1: [upDinbox1],
         });
@@ -398,6 +468,7 @@ class App extends Component {
     if (stackVal1 === 5 || stackVal2 === 2) {
       stackVal2 = 0;
       displayString = inBox1Val + text;
+      console.log("hey");
     }
     else {
       if (inBox1Val.indexOf("e+0") > -1 && inBoxVal.indexOf("-") > -1)
@@ -409,6 +480,7 @@ class App extends Component {
           inBox1: [inBox1Val.replace("e+0", "e+")],
         });
       displayString = inBox1Val + inBoxVal + text;
+      console.log("hey1");
     }
   }
 
@@ -470,6 +542,7 @@ class App extends Component {
   displayCheck = () => {
     var inBox1Val = this.state.inBox1.join('');
     console.log("inside funct", inBox1Val)
+    console.log("stackVal1",stackVal1);
     switch (stackVal1) {
       case 2: this.setState({
         inBox1: [],
@@ -492,7 +565,8 @@ class App extends Component {
         });
         stackVal2 = 6;
         break;
-      default: break;
+
+      default:console.log("inside default"); break;
     }
   }
 
@@ -555,6 +629,7 @@ class App extends Component {
       // inBox.focus();
     }
   }
+ 
 
   //unary operations not done
   btnUnaryOp = e => {
@@ -609,13 +684,13 @@ class App extends Component {
         this.displayTrignometric("powten", x); break;
 
       //AsinH
-      case "sinh": retVal = this.inverseSineH(x); this.modeText(value, x); break;
+      case "sinh-1": retVal = this.inverseSineH(x); this.modeText(value, x); break;
 
       //AcosH
-      case "cosh": retVal = Math.log(x + Math.sqrt(x + 1) * Math.sqrt(x - 1)); this.modeText(value, x); break;
+      case "cosh-1": retVal = Math.log(x + Math.sqrt(x + 1) * Math.sqrt(x - 1)); this.modeText(value, x); break;
 
       //AtanH
-      case "tanh": retVal = 0.5 * (Math.log(1 + x) - Math.log(1 - x)); this.modeText(value, x); break;
+      case "tanh-1": retVal = 0.5 * (Math.log(1 + x) - Math.log(1 - x)); this.modeText(value, x); break;
 
       //Absolute |x|
       case "abs": retVal = Math.abs(x); this.displayTrignometric("abs", x); break;
@@ -623,8 +698,30 @@ class App extends Component {
       //Log Base 2
       case "logbase2": retVal = Math.log(x) / Math.log(2);
         this.displayTrignometric("logXbase2", x);
+        console.log("retuen value", retVal);
         break;
+      case 'sin-1': retVal = this.sinInvCalc(modeSelected,x); this.modeText("asin",x);trig=1;
+      break;
+      
+      case 'cos-1': retVal = this.cosInvCalc(modeSelected,x); this.modeText("acos",x); trig=1;
+      break;
 
+      case 'tan-1': retVal= this.tanInvCalc(modeSelected,x); this.modeText("atan",x);trig=1;
+      break;
+
+      case 'sinh': retVal = (Math.pow(Math.E,x)- Math.pow(Math.E, -x))/2;
+      this.modeText(value,x);
+      break;
+
+      case 'cosh': retVal = (Math.pow(Math.E, x) + Math.pow(Math.E, -x)) / 2; 
+      this.modeText(value,x);
+      break;
+
+      case 'tanh':
+          retVal = (Math.pow(Math.E, x) - Math.pow(Math.E, -x));
+          retVal /= (Math.pow(Math.E, x) + Math.pow(Math.E, -x));
+          this.modeText(value,x);
+          break;
 
       default: break;
 
@@ -635,6 +732,7 @@ class App extends Component {
     if (stackVal2 !== 3) { stackVal2 = 2; }
     stackVal1 = 3;
     boolClear = true;
+    
     if (retVal === 0 || retVal === strMathError || retVal === strInf) {
       console.log("valuuee", retVal)
       this.setState({
@@ -643,6 +741,7 @@ class App extends Component {
     } else if ((Math.abs(retVal) < 0.00000001 || Math.abs(retVal) > 100000000) && trig !== 1) {
     }
     else {
+      console.log("retval", retVal);
       if (retVal.toFixed(8) % 1 !== 0) {
         var i = 1;
         while (i < 10) {
@@ -673,6 +772,19 @@ class App extends Component {
   }
 
 
+  componentDidUpdate () {
+modeSelected = document.querySelector('input[name=degree_or_radian]:checked').value;
+console.log("heheh",modeSelected);
+  }
+
+optionChange = e =>{
+  var value = e.target.getAttribute('value');
+ this.setState({
+   selectedOption:value,
+ })
+}
+
+
 
 
   displayTrignometric = (text, x) => {
@@ -697,6 +809,8 @@ class App extends Component {
     else { if (stackVal2 === 4) { displayString = ""; } trigDisplay = text + "(" + x + ")"; }
     displayString = displayString + trigDisplay;
   }
+
+mode
 
   inverseSineH = (inputVal) => {
     return Math.log(inputVal + Math.sqrt(inputVal * inputVal + 1));
@@ -808,7 +922,7 @@ class App extends Component {
   sinInvCalc = (mode, inputVal) => {
     var opVal;
     var ipVal = Math.asin(inputVal);
-    if (strNaN.indexOf(ipVal.toFixed(8)) > -1) {
+    if (inputVal < -1 || inputVal > 1) {
       opVal = strMathError;
     } else {
       opVal = this.changeValOfInvBasedOnMode(mode, ipVal);
@@ -819,7 +933,7 @@ class App extends Component {
   cosInvCalc = (mode, inputVal) => {
     var opVal;
     var ipVal = Math.acos(inputVal);
-    if (strNaN.indexOf(ipVal.toFixed(8)) > -1) {
+    if (inputVal < -1 || inputVal > 1) {
       opVal = strMathError;
     } else {
       opVal = this.changeValOfInvBasedOnMode(mode, ipVal);
@@ -830,7 +944,7 @@ class App extends Component {
   tanInvCalc = (mode, inputVal) => {
     var opVal;
     var ipVal = Math.atan(inputVal);
-    if (strNaN.indexOf(ipVal.toFixed(8)) > -1) {
+    if (inputVal < -1 || inputVal > 1) {
       opVal = strMathError;
     } else {
       opVal = this.changeValOfInvBasedOnMode(mode, ipVal);
@@ -967,11 +1081,19 @@ class App extends Component {
   render() {
     return (
       <div className="mainContentArea">
-        <Display data={this.state.inBox1} />
-        <Display data={this.state.inBox} />
+        <Display id="dis" data={this.state.inBox1} />
+        <Display id="dis" data={this.state.inBox} />
 
-
+        <span id = "memory" className={this.state.mem}>
+          <font size="2">M</font>
+        </span>
+        <div className="degree_radian">
+          
+          <input type="radio" name="degree_or_radian" value="deg" checked={this.state.selectedOption === "deg"} onChange={this.optionChange} />Deg
+          <input type="radio" name="degree_or_radian" value="rad" checked={this.state.selectedOption === "rad"} onChange={this.optionChange}/>Rad
+        </div>
         <div className="left_sec">
+        
           <button href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="1">1</button>
 
           <button href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="2">2</button>
@@ -1054,7 +1176,7 @@ class App extends Component {
           <br />
           <button href="#nogo" id="keyPad_btnLn" className="keyPad_btnUnaryOp" value="ln" onClick={this.btnUnaryOp}>ln</button>
           <button href="#nogo" id="keyPad_btnLg" className="keyPad_btnUnaryOp" value="log" onClick={this.btnUnaryOp}>log</button>
-          <button href="#nogo" id="keyPad_EXP" className="keyPad_btnBinaryOp" value="exp" onClick={this.btnUnaryOp}>Exp</button>
+          <button href="#nogo" id="keyPad_EXP" className="keyPad_btnBinaryOp" value="exp" onClick={this.btnUnaryOp}>ex</button>
           <button href="#nogo" id="keyPad_btnSin" className="keyPad_btnUnaryOp min" value="sin" onClick={this.btnUnaryOp}>sin</button>
           <button href="#nogo" id="keyPad_btnCosin" className="keyPad_btnUnaryOp min" value="cos" onClick={this.btnUnaryOp}>cos</button>
           <br />
@@ -1064,10 +1186,22 @@ class App extends Component {
           <button href="#nogo" id="keyPad_btnCosinH" className="keyPad_btnUnaryOp min" value="cosh" onClick={this.btnUnaryOp}>cosh</button>
           <button href="#nogo" id="keyPad_btnTgH" className="keyPad_btnUnaryOp min" value="tanh" onClick={this.btnUnaryOp} >tanh</button>
           <br />
-          <button href="#nogo" id="keyPad_btnAbs" className="keyPad_btnUnaryOp" value="abs" onClick={this.btnUnaryOp} ><span className="baseele">|x|</span></button>
-          <button href="#nogo" id="keyPad_btnLogBase2" className="keyPad_btnUnaryOp" value="logbase2" onClick={this.btnUnaryOp} ><span className="baseele">log</span><span className="subscript">2</span><span className="baseele">x</span></button>
+          <button href="#nogo" id="keyPad_btnAbs" className="keyPad_btnUnaryOp" value="abs" onClick={this.btnUnaryOp} >|x|</button>
+          <button href="#nogo" id="keyPad_btnLogBase2" className="keyPad_btnUnaryOp" value="logbase2" onClick={this.btnUnaryOp} >log2x</button>
+            <br/>
+            <button href="#nogo" id="keyPad_MC" className="keyPad_btnMemoryOp" value="MC" onClick={this.btnMemory}>MC</button>
+            <button href="#nogo" id="keyPad_MR" className="keyPad_btnMemoryOp" value="MR" onClick={this.btnMemory}>MR</button>
+            <button href="#nogo" id="keyPad_MS" className="keyPad_btnMemoryOp" value="MS" onClick={this.btnMemory}>MS</button>
+            <button href="#nogo" id="keyPad_M+" className="keyPad_btnMemoryOp" value="M+" onClick={this.btnMemory}>M+</button>
+            <button href="#nogo" id="keyPad_M-" className="keyPad_btnMemoryOp" value="M-" onClick={this.btnMemory}>M-</button>
+<br/>
+<button href="#nogo" id="keyPad_btnAsinH" className="keyPad_btnUnaryOp min" value="sinh-1" onClick={this.btnUnaryOp}>sinh-1</button>
+<button href="#nogo" id="keyPad_btnAcosH" className="keyPad_btnUnaryOp min" value="cosh-1" onClick={this.btnUnaryOp}>cosh-1</button>
+<button href="#nogo" id="keyPad_btnAtanH" className="keyPad_btnUnaryOp min" value="tanh-1" onClick={this.btnUnaryOp}>tanh-1</button>
 
-
+<button href="#nogo" id="keyPad_btnAsin" className="keyPad_btnUnaryOp min" value="sin-1" onClick={this.btnUnaryOp}>sin-1</button>
+<button href="#nogo" id="keyPad_btnAcos" className="keyPad_btnUnaryOp min" value="cos-1" onClick={this.btnUnaryOp}>cos-1</button>
+<button href="#nogo" id="keyPad_btnAtan" className="keyPad_btnUnaryOp min" value="tan-1" onClick={this.btnUnaryOp}>tan-1</button>
 
 
 

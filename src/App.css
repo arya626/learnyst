@@ -373,6 +373,7 @@ td{
     text-decoration: none;
     vertical-align: middle;
     width: 35px;
+    
    
     
   }
@@ -571,7 +572,7 @@ td{
     clear: both;
   }
   
-  .Display{
+  /* .Display{
     
       background: none repeat scroll 0 0 #fff;
       border-color: #aaa;
@@ -589,10 +590,13 @@ td{
       float: left;
       margin-bottom: 7px;
       padding-right: 5px;
+      position: absolute;
+      display:block;
   
-  }
-  .DisplayExp{
-    
+  } */
+  /* .DisplayExp{
+    position: absolute;
+    top:30px;
     background: none repeat scroll 0 0 #fff;
     border-color: #aaa;
     border-image: none;
@@ -611,6 +615,23 @@ td{
     padding-right: 5px;
     color: red;
   
-  }
+  } */
+#dis{
+  font-size: 50px;
+  border: #c0392b;
   
-  
+}
+ button{
+   top:50px;
+   position: relative;
+   margin :2px;
+   padding: 10px;
+ }
+.hide{
+  visibility: hidden;
+}
+
+ .show{
+   visibility: visible;
+   
+ }

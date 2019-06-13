@@ -191,25 +191,45 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
     margin-bottom: 5px;
-}
+}*/
 .Display{
-    background: none repeat scroll 0 0 #fff;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 3px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    font-size: 20px;
-    height: 30px;
-    line-height: 30px;
-    text-align: right;
-    text-indent: 10px;
-    vertical-align: middle;
-    width: 200px;
-    float: left;
-    margin-bottom: 7px;
-    padding-right: 5px;
+  background: none repeat scroll 0 0 #fff;
+  border-color: #aaa;
+  border-image: none;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px 1px 3px;
+  font-size: 20px;
+  height: 30px;
+  line-height: 30px;
+  text-align: right;
+  text-indent: 10px;
+  vertical-align: middle;
+  width: 434px;
+  float: left;
+  margin-bottom: 7px;
+  padding-right: 5px;
 }
+
+.Display1{
+  background: none repeat scroll 0 0 #fff;
+  border-color: #aaa;
+  border-image: none;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px 1px 3px;
+  font-size: 20px;
+  height: 30px;
+  line-height: 30px;
+  text-align: right;
+  text-indent: 10px;
+  vertical-align: middle;
+  width: 434px;
+  float: left;
+  margin-bottom: 7px;
+  padding-right: 5px;
+}
+/*
 .clear{
     clear: both;
 } */
@@ -288,10 +308,10 @@ td{
 
 
 
-.App{
+/* .App{ */
     /* position: relative; */
     
-    overflow: hidden;
+    /* overflow: hidden;
     background-color:#dadada;
     border: 1px solid #aaa;
     border-bottom: 7px solid #999;
@@ -303,7 +323,7 @@ td{
     height: 215px;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1)
     
-  }
+  } */
   /* .Button {
     background: #f1f1f1;
     border-color: #aaa;
@@ -327,7 +347,7 @@ td{
     
     
   } */
-  .Button{
+  /* .Button{ */
     /* background: #f1f1f1;
     border-color: #aaa;
     border-image: none;
@@ -343,16 +363,16 @@ td{
     height: 20px;
     line-height: 20px;
     margin-right: 5px;*/
-    text-align: center;
+    /* text-align: center;
     text-decoration: none;
     vertical-align: middle;
-    width: 35px; 
+    width: 35px;  */
     /* left: 1px; */
-    margin-left: -6px;
+    /* margin-left: -6px; */
     
-  }
+  /* } */
   
-  #btn{
+  /* #btn{
     position: relative;
     background: #f1f1f1;
     border-color: #aaa;
@@ -361,9 +381,9 @@ td{
     border-style: solid;
     border-width: 1px 1px 3px;
     color: #444;
-    cursor: pointer;
+    cursor: pointer; */
     /* display: block; */
-    float: left;
+    /* float: left;
     font-size: 12px;
     font-weight: bold;
     height: 25px;
@@ -376,8 +396,8 @@ td{
     
    
     
-  }
-  .row1,.row2,.row3,.row4,.row5{
+  } */
+  /* .row1,.row2,.row3,.row4,.row5{
   
     display: block;
     overflow: hidden;
@@ -386,67 +406,67 @@ td{
     margin-bottom: 5px;
     position: relative;
     
-  }
+  } */
   
-  .row6{
+  /* .row6{
     display: block;
     /* overflow: hidden; */
     /* overflow-x: hidden; */
     /* overflow-y: hidden; */
-    position: absolute;
-  }
+    /* position: absolute; */
+  /* } */
   
   
-  .BackBtn{
+  /* .BackBtn{
     text-align: center;
-    text-decoration: none;  
+    text-decoration: none;   */
     /* vertical-align: middle; */
-    width: 75px; 
+    /* width: 75px; 
     position: relative;
-    top:-3px;
+    top:-3px; */
     /* left: 1px; */
-    margin-left: -6px;
+    /* margin-left: -6px;
     font-size: 25px;
     float: left;
-    font-weight: bold;
+    font-weight: bold; */
     /* height: 25px; */
     /* line-height: 20px; */
     /* margin-right: 5px; */
-  }
+  /* } */
   
-  .Zbtn{
+  /* .Zbtn{
     text-align: center;
-    text-decoration: none;  
+    text-decoration: none;   */
     /* vertical-align: middle; */
-    width: 75px; 
+    /* width: 75px; 
     position: relative;
-    top:3px;
+    top:3px; */
     /* left: 1px; */
-    top:-1px;
+    /* top:-1px;
     margin-left: -6px;
     font-size: 12px;
     float: left;
     font-weight: bold;
   
   }
+   */
   
-  
-  .Ebtn{
+  /* .Ebtn{
     text-align: center;
     text-decoration: none;  
     vertical-align: middle;
     width: 34px; 
-    position: relative;
+    position: relative; */
     /* top:-3px; */
     /* left: 1px; */
     /* top:-1px; */
-    margin-left: -6px;
+    /* margin-left: -6px;
     font-size: 12px;
     float: left;
     font-weight: bold;
   
-  }
-  #btn_zero{
+  } */
+  /* #btn_zero{
     position: relative;
     background: #f1f1f1;
     border-color: #aaa;
@@ -455,9 +475,9 @@ td{
     border-style: solid;
     border-width: 1px 1px 3px;
     color: #444;
-    cursor: pointer;
+    cursor: pointer; */
     /* display: block; */
-    float: left;
+    /* float: left;
     font-size: 12px;
     font-weight: bold;
     height: 25px;
@@ -467,13 +487,13 @@ td{
     text-decoration: none;
     vertical-align: middle;
     width: 75px!important;
-  }
-  
-  #btn_equal{
+  } */
+/*   
+  #btn_equal{ */
     /* width: 36px;
     height: 55px;
      */
-     top:-30px;
+     /* top:-30px;
     position: absolute;
   
     background: none repeat scroll 0 0 #2ecc71;
@@ -481,28 +501,28 @@ td{
       bottom: -0.1px;
       color: #fff;
       font-size: 20px;
-      line-height: 47px;
+      line-height: 47px; */
       /* right: 10px; */
       /* *: ; */
       /* right: -6px; */
-      width: 35px;
-      height: 55px;
+      /* width: 35px;
+      height: 55px; */
       /* position: absolute; */
-      border-radius: 4px;
+      /* border-radius: 4px;
       border-style: solid;
       border-width: 1px 1px 3px;
       cursor: pointer;
       text-align: center;
     text-decoration: none;
     vertical-align: middle;
-  
+   */
       /* LINE-HEIGHT: 65PX; */
       /* FONT-SIZE: 20px; */
-  }
+  /* } */
   
   
-  #btn_backSpace{
-    /* position: relative; */
+  /* #btn_backSpace{ */
+    /* position: relative;
     float: left;
     
     font-weight: bold;
@@ -513,9 +533,9 @@ td{
     text-decoration: none;
     vertical-align: middle;
   
-    cursor: pointer;
+    cursor: pointer; */
     /* border-color: #aaa; */
-    border-image: none;
+    /* border-image: none;
     border-radius: 4px;
     border-style: solid;
     border-width: 1px 1px 3px;
@@ -523,9 +543,9 @@ td{
     color: #fff;
     border-color: #c0392b;
     width: 75px!important;
-  }
+  } */
   
-  #btn_clear,#btn_inverse{
+  /* #btn_clear,#btn_inverse{
     float: left;
     font-size: 12px;
     font-weight: bold;
@@ -571,7 +591,7 @@ td{
   .clear {
     clear: both;
   }
-  
+   */
   /* .Display{
     
       background: none repeat scroll 0 0 #fff;
@@ -616,6 +636,222 @@ td{
     color: red;
   
   } */
+
+/*Starts************************************/
+
+html {
+  color: -internal-root-color;
+}
+
+#helptopDiv {
+  margin-bottom: 5px;
+  padding: 10px;
+  background-color: #4286f3;
+  color: #ffffff;
+  /* cursor: move; */
+}
+.calc_container {
+  background: none repeat scroll 0 0 #dadada;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1) inset;
+  padding: 0px;
+  width: 463px;
+  border-bottom: 7px solid #999;
+  position: relative;
+}
+div {
+  display: block;
+}
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+body {
+  font-family: Arial;
+}
+
+#keyPad_Help, #keyPad_Helpback {
+  float: right !important;
+}
+#keyPad_Help {
+  color: #000;
+  /* background: url(../images/Sprite.png) no-repeat -22px -8px; */
+  width: 54px;
+  height: 25px;
+  padding: 1px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px;
+  position: absolute;
+  right: 79px;
+  text-align: center;
+  top: 7px;
+}
+
+.calc_min {
+  /* background: url(../images/Sprite.png) no-repeat -146px -26px; */
+  width: 16px;
+  height: 3px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 25px;
+  position: absolute;
+  right: 42px;
+  text-align: center;
+  top: 25px;
+}
+
+.calc_close {
+  /* background: url(../images/Sprite.png) no-repeat -204px -13px; */
+  width: 16px;
+  height: 16px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 25px;
+  position: absolute;
+  right: 12px;
+  text-align: center;
+  top: 12px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+}
+
+.mainContentArea {
+  margin-top: 0px;
+  padding: 10px;
+}
+
+.text_container {
+  display: inline;
+  /* position: absolute; */
+}
+.clear {
+  clear: both;
+}
+.left_sec {
+  float: left;
+  /* margin-right: 10px; */
+}
+
+#keyPad a {
+  background: #f1f1f1;
+  border-color: #aaa;
+  border-image: none;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px 1px 3px;
+  color: #444;
+  cursor: pointer;
+  /* display: block; */
+  float: left;
+  font-size: 12px;
+  font-weight: bold;
+  height: 25px;
+  line-height: 20px;
+  margin-right: 5px;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  width: 35px;
+}
+#keyPad a:hover {
+  background: #eaeaea;
+}
+#keyPad a:active {
+  position: relative;
+  height: 25px;
+  border-bottom: 1px solid #aaa;
+}
+
+.calc_row {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.degree_radian {
+  float: left;
+  height: 25px;
+  width: 80px;
+  display: inline-block;
+  font-size: 9px;
+  margin-top: 4px;
+  vertical-align: middle;
+}
+
+a:-webkit-any-link {
+  color: -webkit-link;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.keyHidden{
+  visibility: hidden;
+}
+
+.superscript, .subscript {
+  font-size: 0.7em;
+  position: relative;
+  top: -0.5em;
+}
+
+.subscript {
+  top: 0.5em;
+  
+}
+
+
+a.span.small{
+  /* background: #c0392b; */
+  width:36px;
+  left:6px;
+  position: absolute;
+}
+
+#keyPad #keyPad_btnMult{
+  padding-top: 2px;
+  font-size: 20px;
+}
+#keyPad #keyPad_btnMinus{
+  font-size: 20px;
+}
+
+#keyPad_btn0 {
+  width: 76px!important;
+}
+a#keyPad_btn0 {
+}
+#keyPad_btnDot {
+  width: 35px!important;
+}
+#keyPad #keyPad_btnEnter {
+  background: none repeat scroll 0 0 #2ecc71;
+  border-color: #27ae60;
+  bottom: 17px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 47px;
+  right: 10px;
+  *right: -6px;
+  width: 35px;
+  height: 53px;
+  position: absolute;
+  /* LINE-HEIGHT: 65PX; */
+  FONT-SIZE: 20px;
+}
+
+
+
+
+
 #dis{
   font-size: 50px;
   border: #c0392b;
@@ -627,11 +863,40 @@ td{
    margin :2px;
    padding: 10px;
  }
-.hide{
+ .hide {
   visibility: hidden;
+  position: absolute;
+  top: 52px;
+  right: 429px;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 1s, visibility, 1s;
+}
+.show {
+  visibility: visible;
+  opacity: 1;
 }
 
- .show{
-   visibility: visible;
-   
- }
+#keyPad a.min {
+  font-size: 10.5px;
+}
+
+.erase{
+  position: relative; 
+  top: -2px;
+}
+
+#keyPad #keyPad_btnBack {
+  background: none repeat scroll 0 0 #e74c3c;
+  color: #fff;
+  border-color: #c0392b;
+  width: 76px!important;
+  font-size: 24px;
+}
+
+#keyPad #keyPad_btnInverseSign, #keyPad #keyPad_btnAllClr {
+  background: none repeat scroll 0 0 #e74c3c;
+  color: #fff;
+  border-color: #c0392b;
+  width: 35px!important;
+}

@@ -1,197 +1,5 @@
-/* #btn{
-  background: #f1f1f1;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer;
-    /* display: block; 
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 25px;
-    line-height: 20px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 35px;
-}
+/*Starts************************************/
 
-#A_btn{
-    background: #e74c3c;
-    border-color: #c0392b;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    /* display: block; 
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 22px;
-    line-height: 20px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 74px;
-}
-
-#C_btn{
-    background: #e74c3c;
-    border-color: #c0392b;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: white;
-    cursor: pointer;
-    /* display: block; 
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 22px;
-    line-height: 20px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 35px;
-}
-
-#O_btn{
-    background: #f1f1f1;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer;
-    /* display: block; 
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 25px;
-    line-height: 20px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 74px;
-}
-
-#E_btn{
-    background: none repeat scroll 0 0 #2ecc71;
-    border-color: #27ae60;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer;
-    /* display: block; 
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height:55px;
-    line-height: 20px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 35px;
-    position: absolute;
-
-}
-
-body {
-    font-family: Arial;
-}
-
-/* #arrow{
-    background: #f1f1f1;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer;
-    display: block; 
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 25px;
-    line-height: 20px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 35px;
-    
-} 
-.App{
-    /* position: absolute; 
-    overflow: hidden;
-    background-color: #f1f1f1;
-    padding: 8px;
-    margin: auto;
-
-
-    Width:210px;
-}
-.rowOne{
-    display: block;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 5px;
-}
-
-.rowTwo{
-    display: block;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 5px;
-}
-
-.rowThree{
-    display: block;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 5px;
-}
-.rowFour{
-    display: block;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 5px;
-}
-.rowFive{
-    display: block;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 5px;
-    /* position: relative; 
-}
-.rowSix{
-    /* position: relative; 
-    display: block;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 5px;
-}*/
 .Display{
   background: none repeat scroll 0 0 #fff;
   border-color: #aaa;
@@ -209,6 +17,26 @@ body {
   float: left;
   margin-bottom: 7px;
   padding-right: 5px;
+  overflow: scroll;
+  white-space: nowrap; 
+}
+.Display::-webkit-scrollbar { 
+  display: none; 
+} 
+#keyPad_Help {
+  color: #000;
+  background: red;
+  width: 54px;
+  height: 25px;
+  padding: 1px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px;
+  position: absolute;
+  right: 79px;
+  text-align: center;
+  top: 7px;
 }
 
 .Display1{
@@ -229,416 +57,13 @@ body {
   margin-bottom: 7px;
   padding-right: 5px;
 }
-/*
-.clear{
-    clear: both;
-} */
 
 
-/* .App {
-  text-align: center;
+
+
+#root{
+  margin: 10px;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
-/* 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {background-color: #f2f2f2;}
- */
-/* body {
-  font-family: Arial;
-}
-td{
-  background: #f1f1f1;
-  border-color: #aaa;
-  border-image: none;
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 1px 1px 3px;
-  color: #444;
-  cursor: pointer;
-  /* display: block; */
- /* float: left;
-  font-size: 12px;
-  font-weight: bold;
-  height: 20px;
-  line-height: 20px;
-  margin-right: 5px;
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  width: 35px;
-} */
-
-
-
-/* .App{ */
-    /* position: relative; */
-    
-    /* overflow: hidden;
-    background-color:#dadada;
-    border: 1px solid #aaa;
-    border-bottom: 7px solid #999;
-    border-radius: 5px;
-    width: 200px;
-    padding: 7px;
-    margin: auto;  
-    top: 200px;
-    height: 215px;
-    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1)
-    
-  } */
-  /* .Button {
-    background: #f1f1f1;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer;
-    /* display: block; 
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 20px;
-    line-height: 20px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 35px;
-    
-    
-  } */
-  /* .Button{ */
-    /* background: #f1f1f1;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer; */
-    /* display: block; */
-     /* float: left; */
-    /*font-size: 12px;
-    font-weight: bold;
-    height: 20px;
-    line-height: 20px;
-    margin-right: 5px;*/
-    /* text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 35px;  */
-    /* left: 1px; */
-    /* margin-left: -6px; */
-    
-  /* } */
-  
-  /* #btn{
-    position: relative;
-    background: #f1f1f1;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer; */
-    /* display: block; */
-    /* float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 25px;
-    line-height: 21px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 35px;
-    
-   
-    
-  } */
-  /* .row1,.row2,.row3,.row4,.row5{
-  
-    display: block;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 5px;
-    position: relative;
-    
-  } */
-  
-  /* .row6{
-    display: block;
-    /* overflow: hidden; */
-    /* overflow-x: hidden; */
-    /* overflow-y: hidden; */
-    /* position: absolute; */
-  /* } */
-  
-  
-  /* .BackBtn{
-    text-align: center;
-    text-decoration: none;   */
-    /* vertical-align: middle; */
-    /* width: 75px; 
-    position: relative;
-    top:-3px; */
-    /* left: 1px; */
-    /* margin-left: -6px;
-    font-size: 25px;
-    float: left;
-    font-weight: bold; */
-    /* height: 25px; */
-    /* line-height: 20px; */
-    /* margin-right: 5px; */
-  /* } */
-  
-  /* .Zbtn{
-    text-align: center;
-    text-decoration: none;   */
-    /* vertical-align: middle; */
-    /* width: 75px; 
-    position: relative;
-    top:3px; */
-    /* left: 1px; */
-    /* top:-1px;
-    margin-left: -6px;
-    font-size: 12px;
-    float: left;
-    font-weight: bold;
-  
-  }
-   */
-  
-  /* .Ebtn{
-    text-align: center;
-    text-decoration: none;  
-    vertical-align: middle;
-    width: 34px; 
-    position: relative; */
-    /* top:-3px; */
-    /* left: 1px; */
-    /* top:-1px; */
-    /* margin-left: -6px;
-    font-size: 12px;
-    float: left;
-    font-weight: bold;
-  
-  } */
-  /* #btn_zero{
-    position: relative;
-    background: #f1f1f1;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    color: #444;
-    cursor: pointer; */
-    /* display: block; */
-    /* float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 25px;
-    line-height: 21px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 75px!important;
-  } */
-/*   
-  #btn_equal{ */
-    /* width: 36px;
-    height: 55px;
-     */
-     /* top:-30px;
-    position: absolute;
-  
-    background: none repeat scroll 0 0 #2ecc71;
-      border-color: #27ae60;
-      bottom: -0.1px;
-      color: #fff;
-      font-size: 20px;
-      line-height: 47px; */
-      /* right: 10px; */
-      /* *: ; */
-      /* right: -6px; */
-      /* width: 35px;
-      height: 55px; */
-      /* position: absolute; */
-      /* border-radius: 4px;
-      border-style: solid;
-      border-width: 1px 1px 3px;
-      cursor: pointer;
-      text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-   */
-      /* LINE-HEIGHT: 65PX; */
-      /* FONT-SIZE: 20px; */
-  /* } */
-  
-  
-  /* #btn_backSpace{ */
-    /* position: relative;
-    float: left;
-    
-    font-weight: bold;
-    height: 25px;
-    line-height: 21px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-  
-    cursor: pointer; */
-    /* border-color: #aaa; */
-    /* border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    background: none repeat scroll 0 0 #e74c3c;
-    color: #fff;
-    border-color: #c0392b;
-    width: 75px!important;
-  } */
-  
-  /* #btn_clear,#btn_inverse{
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    height: 25px;
-    line-height: 21px;
-    margin-right: 5px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-  
-    cursor: pointer;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    background: none repeat scroll 0 0 #e74c3c;
-    color: #fff;
-    border-color: #c0392b;
-    width: 35px;
-  }
-  
-  #btn_backSpace:active,#btn_clear:active,#btn_inverse:active{
-    position: relative;    
-    height: 25px;
-    border-bottom: 1px solid #e74c3c;
-  }
-  
-  #btn_equal:active{
-    position: relative;    
-    height: 55px;
-    border-bottom: 1px solid #2ecc71;
-  }
-  
-  #btn:hover, #btn_zero:hover {
-    background: #eaeaea;
-  }
-  #btn:active, #btn_zero:active{
-    position: relative;    
-    height: 25px;
-    border-bottom: 1px solid #aaa;
-  }
-  .clear {
-    clear: both;
-  }
-   */
-  /* .Display{
-    
-      background: none repeat scroll 0 0 #fff;
-      border-color: #aaa;
-      border-image: none;
-      border-radius: 3px;
-      border-style: solid;
-      border-width: 1px 1px 3px;
-      font-size: 17px;
-      height: 30px;
-      line-height: 30px;
-      text-align: right;
-      text-indent: 10px;
-      vertical-align: middle;
-      width: 188px;
-      float: left;
-      margin-bottom: 7px;
-      padding-right: 5px;
-      position: absolute;
-      display:block;
-  
-  } */
-  /* .DisplayExp{
-    position: absolute;
-    top:30px;
-    background: none repeat scroll 0 0 #fff;
-    border-color: #aaa;
-    border-image: none;
-    border-radius: 3px;
-    border-style: solid;
-    border-width: 1px 1px 3px;
-    font-size: 17px;
-    height: 30px;
-    line-height: 30px;
-    text-align: right;
-    text-indent: 10px;
-    vertical-align: middle;
-    width: 188px;
-    float: left;
-    margin-bottom: 7px;
-    padding-right: 5px;
-    color: red;
-  
-  } */
-
-/*Starts************************************/
-
 html {
   color: -internal-root-color;
 }
@@ -660,8 +85,14 @@ html {
   border-bottom: 7px solid #999;
   position: relative;
 }
+
+.reduceWidth {
+  width: 199px !important;
+}
+
 div {
   display: block;
+
 }
 * {
   box-sizing: border-box;
@@ -673,56 +104,91 @@ body {
 }
 
 #keyPad_Help, #keyPad_Helpback {
-  float: right !important;
+  float: right !important;  
 }
-#keyPad_Help {
-  color: #000;
-  /* background: url(../images/Sprite.png) no-repeat -22px -8px; */
+
+#helpContent {
+  height: 258px;
+  margin-right: 6px;
+  overflow: auto;
+  padding: 10px;
+}
+
+#keyPad_Helpback {
+  padding-top: 5px;
+  color: #fff;
+  background: #0F52BA;
   width: 54px;
   height: 25px;
   padding: 1px;
   cursor: pointer;
   font-size: 12px;
   font-weight: bold;
-  line-height: 20px;
+  line-height: 24px;
   position: absolute;
   right: 79px;
   text-align: center;
   top: 7px;
+  border-radius: 4px;
+
 }
 
-.calc_min {
-  /* background: url(../images/Sprite.png) no-repeat -146px -26px; */
-  width: 16px;
-  height: 3px;
+#keyPad_Help {
+  padding-top: 5px;
   color: #fff;
+  background: #6dc0fc;
+  width: 54px;
+  height: 25px;
+  padding: 1px;
   cursor: pointer;
   font-size: 12px;
   font-weight: bold;
-  line-height: 25px;
+  line-height: 24px;
+  position: absolute;
+  right: 79px;
+  text-align: center;
+  top: 7px;
+  border-radius: 4px;
+}
+#keyPad_Help:hover, #keyPad_Helpback:hover{
+ background: #0e4d92;
+}
+
+.calc_min {
+  color: #fff;
+  cursor: pointer;
+  font-size: 26px;
+  font-weight: bold;
+  line-height: 5px;
   position: absolute;
   right: 42px;
   text-align: center;
-  top: 25px;
+  top: 13px;
+ 
+}
+.calc_min::before{
+  content: "_";
 }
 
 .calc_close {
-  /* background: url(../images/Sprite.png) no-repeat -204px -13px; */
   width: 16px;
   height: 16px;
   color: #fff;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 25px;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 5px;
   position: absolute;
   right: 12px;
   text-align: center;
-  top: 12px;
+  top: 16px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
+}
+.calc_close::before{
+  content: 'x';
 }
 
 .mainContentArea {
@@ -732,14 +198,12 @@ body {
 
 .text_container {
   display: inline;
-  /* position: absolute; */
 }
 .clear {
   clear: both;
 }
 .left_sec {
   float: left;
-  /* margin-right: 10px; */
 }
 
 #keyPad a {
@@ -751,7 +215,6 @@ body {
   border-width: 1px 1px 3px;
   color: #444;
   cursor: pointer;
-  /* display: block; */
   float: left;
   font-size: 12px;
   font-weight: bold;
@@ -810,7 +273,6 @@ a:-webkit-any-link {
 
 
 a.span.small{
-  /* background: #c0392b; */
   width:36px;
   left:6px;
   position: absolute;
@@ -844,7 +306,6 @@ a#keyPad_btn0 {
   width: 35px;
   height: 53px;
   position: absolute;
-  /* LINE-HEIGHT: 65PX; */
   FONT-SIZE: 20px;
 }
 
@@ -899,4 +360,28 @@ a#keyPad_btn0 {
   color: #fff;
   border-color: #c0392b;
   width: 35px!important;
+}
+
+.calc_max {
+  width: 20px;
+  height: 10px;
+  color: #fff;
+  cursor: pointer;
+   font-size: 17px; 
+  font-weight: bold;
+  line-height: 15px;
+  position: absolute;
+  right: 42px;
+  text-align: center;
+  top: 13px;
+}
+
+
+
+.reduceHeader{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  width: 74px !important;
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import Display from './Display';
 import Math from 'mathjs';
 
+// variable declaration and initialisation.
 var trigDisplay = "";
 var boolClear = true;
 var stackVal1 = 1;
@@ -22,54 +22,39 @@ var trig = 0;
 var strNaN = "NaN";
 var strInf = "Infinity";
 var oscError = "ERROR";
-var memVal = 0;
 var modeSelected = "deg"
 var memory = 0;
-var display = "";
-var afterdec = "";
-var dS = "";
-var index;
 
-var chVal = 0;
+//state initialisation
 class App extends Component {
   constructor() {
     super()
-    // this.myRef = React.createRef();
-    this.btnRef = React.createRef();
     this.state = {
       inBox: [strEmpty],
       inBox1: [],
-      mem:"hide",
+      mem: "hide",
       selectedOption: "deg",
-      in : 0,
-      
+      display: "block",
+      displayText: "none",
+      minimize: "ui-widget-content calc_container",
+      displayMain: "block",
+      header: "",
+      displayMax: 'none',
     }
-//  this.oscBinaryOperation = this.oscBinaryOperation.bind(this);
   }
 
 
-
-  buttonNumeric = async e => {
+  //when numeric buttons pressed
+  buttonNumeric = (e) => {
     var value = e.target.getAttribute('value');
     var inBoxVal = this.state.inBox.join('');
     var inBox1Val = this.state.inBox1.join('');
-   
-    
-    // var character = inBox1Val.substring(inBox1Val.length-1);
-//     if(chVal === 1 && inBoxVal.length > 0){
-// console.log("hey");
-//       this.setState({
-//       inBox : [""],
-//       });
-//     }
-    if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
+    if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;  //checks if the input box is inifinity
     if (boolClear) {
       inBoxVal = "0";
       boolClear = false;
     }
-
     var str = inBoxVal;
-    // console.log("str"+str);
     if (str.length > maxLength) return;
     if (value === "." && str.indexOf('.') >= 0 && inBox1Val.length !== 0) {
       this.setState({
@@ -81,36 +66,27 @@ class App extends Component {
     else if (value === "." && str.indexOf('.') >= 0)
       return;
     this.displayCheck();
-  
+
     if (parseInt(str) !== strEmpty || str.length > 1 || value === ".") {
-      // console.log("str value", str);
-      // console.log("strEmpty value", strEmpty)
-      // console.log("Updating")
-      // console.log("Len inside if", str.length)
       this.setState({
-        inBox: [str+value],
-        // inBox1:[value],
+        inBox: [str + value],
       });
       stackVal1 = 1;
     }
     else {
-      // console.log("str value1", str);
       this.setState({
-
         inBox: [value],
       });
       stackVal1 = 1;
     }
-
-
+    
   }
 
-  buttonConst = e => {
-    var retVal = strEmpty;
+  //when constants are pressed
+  buttonConst = e => {         
+    var retVal = strEmpty; 
     var value = e.target.getAttribute('value');
     var inBoxVal = this.state.inBox.join('');
-    var inputBox = this.state.inBox.join('');
-    var inBox1Val = this.state.inBox1;
     if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
     switch (value) {
       case "p": retVal = Math.PI;
@@ -135,6 +111,7 @@ class App extends Component {
 
   }
 
+  //When binary operators are pressed.
   btnBinary = async (e) => {
     var value = e.target.getAttribute('value');
     var inBoxVal = this.state.inBox.join('');
@@ -147,7 +124,7 @@ class App extends Component {
           this.opcodeChange();
         await this.operation();
         stackVal1 = 0;
-       
+
         break;
       case '-': this.stackCheck(value);
         newOpCode = 2;
@@ -156,7 +133,7 @@ class App extends Component {
         await this.operation();
         stackVal1 = 0;
         break;
-      case '*': this.stackCheck(value);
+      case '*': await this.stackCheck(value);
         newOpCode = 3;
         if (opCode === 1 || opCode === 2) {
           this.opcodeChange();
@@ -166,10 +143,11 @@ class App extends Component {
             this.opcodeChange();
           }
           else {
-           await this.operation();
+            await this.operation();
           }
         }
         stackVal1 = 0;
+        console.log("Stack array after *", stackArray)
         break;
       case '/': this.stackCheck(value);
         newOpCode = 4;
@@ -196,7 +174,7 @@ class App extends Component {
             this.opcodeChange();
           }
           else {
-           await this.operation();
+            await this.operation();
           }
         }
         stackVal1 = 0;
@@ -218,7 +196,7 @@ class App extends Component {
         stackVal1 = 1;
         stackVal2 = 7;
         break;
-      case 'YpowX': this.stackCheck("^");
+      case 'XpowY': this.stackCheck("^");
         newOpCode = 6; if (opCode < 6 && opCode) {
           this.opcodeChange();
         }
@@ -273,7 +251,7 @@ class App extends Component {
             this.opcodeChange();
           }
           else {
-           await this.operation();
+            await this.operation();
           }
         }
         stackVal1 = 0;
@@ -304,6 +282,7 @@ class App extends Component {
             this.setState({
               inBox1: [inBox1Val.replace("e+0", "e+")],
             });
+          inBox1Val = this.state.inBox1.join('');
           displayString = inBox1Val + inBoxVal + value;
         }
         else
@@ -323,6 +302,7 @@ class App extends Component {
             else {
               await this.oscBinaryOperation();
               stackVal = stackArray[stackArray.length - 1];
+              console.log("Stack Value in bibnary", stackVal);
               if (stackVal === "{") {
                 stackArray.pop();
                 opCode = 0;
@@ -365,80 +345,79 @@ class App extends Component {
       await this.oscBinaryOperation();
     }
     else {
-      stackVal = parseFloat(inBoxVal);
+
+      stackVal = parseFloat(this.state.inBox.join(''));
+      console.log("ssssssssssssss", stackVal);
       boolClear = true;
     }
     opCode = newOpCode;
     this.setState({
       inBox1: [displayString],
     });
- 
-    // this.setState({
-    //   inBox:[],
-    // });
   }
 
-  //memory function not done
-btnMemory = e => {
-  var value = e.target.getAttribute('value');
-  var inBoxVal = this.state.inBox.join('');
-  var x = parseFloat(inBoxVal);
-  if(inBoxVal===""){
-    x = 0;
+  //Memory functions.
+  btnMemory = e => {
+    var value = e.target.getAttribute('value');
+    var inBoxVal = this.state.inBox.join('');
+    var x = parseFloat(inBoxVal);
+    if (inBoxVal === "") {
+      x = 0;
+    }
+    var retVal = 0;
+    if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
+    switch (value) {
+      case 'MS': memory = x;
+        this.setState({
+          mem: "show",
+        })
+        retVal = inBoxVal;
+        break;
+      case 'M+': memory = x + parseFloat(memory);
+        this.setState({
+          mem: "show",
+        })
+        retVal = inBoxVal;
+        break;
+      case 'MR': retVal = parseFloat(memory);
+        stackVal1 = 1;
+        break;
+      case 'MC': memory = 0;
+        this.setState({
+          mem: "hide",
+        })
+        retVal = inBoxVal;
+        break;
+      case 'M-': this.setState({
+        mem: "show",
+      })
+        memory = parseFloat(memory) - x;
+        retVal = inBoxVal;
+        break;
+      default: break;
+
+    }
+    if (retVal !== strEmpty) {
+      this.setState({
+        inBox: [retVal],
+      })
+    } else {
+      this.setState({
+        inBox: [retVal],
+      })
+    }
+    boolClear = true;
+
+
   }
-  var retVal = 0;
-  if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
-  switch(value){
-    case 'MS' : memory = x;
-                this.setState({
-                  mem : "show",
-                })
-                retVal = inBoxVal;
-                break; 
-    case 'M+' : memory=x+parseFloat(memory);  
-                this.setState({
-                  mem : "show",
-                })
-                retVal = inBoxVal;
-                break;
-    case 'MR' : retVal = parseFloat(memory);
-                stackVal1 = 1;
-                break;
-    case 'MC': memory = 0;
-                this.setState({
-                  mem : "hide",
-                })
-                retVal = inBoxVal;
-                break;
-    case 'M-' : this.setState({
-                mem : "show",
-                 }) 
-                memory = parseFloat(memory) - x;
-                retVal = inBoxVal;
-                break;
-    default : break;
 
-  }
-  if(retVal !== strEmpty){
-    this.setState({
-      inBox : [retVal],
-    })
-  }else{
-    this.setState({
-      inBox : [retVal],
-    })
-  }
-  boolClear = true;
-
-
-}
-
-
-  stackCheck = (text) => {
-    console.log("Stackval1",stackVal1);
+  //Check the stack - to check which operator or symbol is present on top of the stack.
+  stackCheck = async (text) => {
+    console.log("Stackval1", stackVal1);
     console.log("hey");
     var inBox1Val = this.state.inBox1.join('');
     var inBoxVal = this.state.inBox.join('');
+    var upDinbox1 = inBox1Val;
     if (stackVal1 === 2) {
       inBox1Val = "";
     }
@@ -455,39 +434,44 @@ btnMemory = e => {
         default: break;
 
       }
-      var upDinbox1 = inBox1Val.substring(0, inBox1Val.length - x);
-      if (!(inBox1Val.indexOf("e+") > -1))
-      console.log("Inside update");
+
+
+      if (!(inBox1Val.indexOf("e+") > -1)) {
+        upDinbox1 = inBox1Val.substring(0, inBox1Val.length - x);
         this.setState({
           inBox1: [upDinbox1],
+        }, () => {
+          inBox1Val = this.state.inBox1.join('');
         });
+
+      }
+
       stackVal2 = 2;
     }
+
     if (stackVal1 === 5 || stackVal2 === 2) {
+      inBox1Val = this.state.inBox1.join('');
       stackVal2 = 0;
-      displayString = inBox1Val + text;
+      displayString = upDinbox1 + text;
       console.log("hey");
     }
     else {
       if (inBox1Val.indexOf("e+0") > -1 && inBoxVal.indexOf("-") > -1)
-        this.setState({
-          inBox1: [inBox1Val.replace("e+0", "e")],
-        });
+        upDinbox1 = inBox1Val.replace("e+0", "e");
       else if ((inBox1Val.indexOf("e+0") > -1))
-        this.setState({
-          inBox1: [inBox1Val.replace("e+0", "e+")],
-        });
-      displayString = inBox1Val + inBoxVal + text;
+        upDinbox1 = inBox1Val.replace("e+0", "e+");
+      displayString = upDinbox1 + inBoxVal + text;
       console.log("hey1");
     }
   }
 
-
+  //Perform calculation operation.
   operation = async () => {
     while (opCodeArray[0] && opCode) {
       if (opCode === 10) {
         opCode = opCodeArray[opCodeArray.length - 1];
         stackVal = stackArray[stackArray.length - 1];
+        console.log("stackValue in operation", stackVal);
         if (newOpCode === 1 || newOpCode === 2 || newOpCode <= opCode) {
           opCodeArray.pop();
           stackArray.pop();
@@ -503,6 +487,7 @@ btnMemory = e => {
       else {
         await this.oscBinaryOperation();
         stackVal = stackArray[stackArray.length - 1];
+        console.log("stackValue in operation", stackVal);
         if (stackVal === "{") {
           opCode = 0;
           break;
@@ -524,7 +509,8 @@ btnMemory = e => {
     }
   }
 
-  opcodeChange = () => {
+  //Change the operation code depending on the symbol on top of the stack.
+  opcodeChange = async () => {
     if (opCode !== 10 && opCode !== 0) {
       opCodeArray.push(opCode);
       stackArray.push(stackVal);
@@ -536,11 +522,11 @@ btnMemory = e => {
   }
 
 
-
-  displayCheck = () => {
+  //Check the values in the display.
+  displayCheck = async () => {
     var inBox1Val = this.state.inBox1.join('');
     console.log("inside funct", inBox1Val)
-    console.log("stackVal1",stackVal1);
+    console.log("stackVal1", stackVal1);
     switch (stackVal1) {
       case 2: this.setState({
         inBox1: [],
@@ -564,16 +550,16 @@ btnMemory = e => {
         stackVal2 = 6;
         break;
 
-      default:console.log("inside default"); break;
+      default: console.log("inside default"); break;
     }
   }
 
+  //Perform binary operations
   oscBinaryOperation = () => {
     var inBoxVal = this.state.inBox.join('');
-    console.log('inbox updated',this.state.inBox)
-    var inv = this.state.in;
+    console.log('inbox updated', this.state.inBox)
     var x2 = parseFloat(inBoxVal);
-    console.log("x2",x2);
+    console.log("x2", x2);
     var retVal = 0;
     switch (opCode) {
       case 9: stackVal = parseFloat(stackVal) * Math.pow(10, x2);
@@ -593,7 +579,7 @@ btnMemory = e => {
         break;
       case 5: stackVal = stackVal % x2;
         break;
-        case 7: stackVal = this.nthroot(stackVal, x2); break;
+      case 7: stackVal = this.nthroot(stackVal, x2); break;
       case 8: stackVal = Math.log(stackVal) / Math.log(x2);
         break;
       case 11: stackVal = stackVal / 100 * x2;
@@ -623,28 +609,25 @@ btnMemory = e => {
         retVal = retVal.toFixed(0);
       }
     }
-   
-      this.setState({
-        inBox : [retVal],
-      
-        // return retVal;
-      });
-      boolClear = true;
-      trig = 0;
-      // inBox.focus();
-    }
-  
- 
 
-  //unary operations not done
-  btnUnaryOp = e => {
+    this.setState({
+      inBox: [retVal],
+  
+    });
+    boolClear = true;
+    trig = 0;
+    
+  }
+
+
+
+  //When unary operators are pressed.
+  btnUnaryOp = async (e) => {
     var value = e.target.getAttribute('value');
-    var inputBoxVal = this.state.inBox.join('');
     var inBoxVal = this.state.inBox.join('');
-    var inBox1Val = this.state.inBox1.join('');
     var x = parseFloat(inBoxVal);
     console.log(x)
-    console.log(typeof(value));
+    console.log(typeof (value));
     var retVal = oscError;
     if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
     switch (value) {
@@ -655,25 +638,26 @@ btnMemory = e => {
       //x^2
       case "x^2": retVal = x * x; this.displayTrignometric("sqr", x); break;
       //SQRT(x)
-      case "sqrt": if(x>=0){
-      retVal = Math.sqrt(x); 
-      this.displayTrignometric("sqrt", x);
-       }else{
-         retVal = NaN;
-         this.displayTrignometric("sqrt", x);
-       } break;
+      case "sqrt": if (x >= 0) {
+        retVal = Math.sqrt(x);
+        this.displayTrignometric("sqrt", x);
+      } else {
+        retVal = NaN;
+        this.displayTrignometric("sqrt", x);
+      } break;
       // X^3                                 
       case "xCube": console.log(x)
 
         retVal = x * x * x; this.displayTrignometric("cube", x); break;            // POW (X, 1/3)                                 
       case "cbrt": retVal = this.nthroot(x, 3); this.displayTrignometric("cuberoot", x); break;
       // NATURAL LOG                                 
-      case "ln": if(x>=0){
-        retVal = Math.log(x); 
-      }else{
+      case "ln": if (x >= 0) {
+        retVal = Math.log(x);
+        this.displayTrignometric(value, x);
+      } else {
         retVal = NaN;
         this.displayTrignometric(value, x);
-       } break;
+      } break;
       // LOG BASE 10                                 
       case "log": retVal = Math.log(x) / Math.LN10; this.displayTrignometric(value, x); break;
       // E^(X)                                 
@@ -703,12 +687,12 @@ btnMemory = e => {
       case "sinh-1": retVal = this.inverseSineH(x); this.modeText(value, x); break;
 
       //AcosH
-      case "cosin": if(x>=1){
+      case "cosh-1": if (x >= 1) {
         retVal = Math.log(x + Math.sqrt(x + 1) * Math.sqrt(x - 1)); this.modeText(value, x);
-       }else{
-         retVal = NaN;
-         this.modeText(value, x);
-       } break;
+      } else {
+        retVal = NaN;
+        this.modeText(value, x);
+      } break;
 
       //AtanH
       case "tanh-1": retVal = 0.5 * (Math.log(1 + x) - Math.log(1 - x)); this.modeText(value, x); break;
@@ -721,28 +705,28 @@ btnMemory = e => {
         this.displayTrignometric("logXbase2", x);
         console.log("retuen value", retVal);
         break;
-      case 'sin-1': retVal = this.sinInvCalc(modeSelected,x); this.modeText("asin",x);trig=1;
-      break;
-      
-      case 'cos-1': retVal = this.cosInvCalc(modeSelected,x); this.modeText("acos",x); trig=1;
-      break;
+      case 'sin-1': retVal = this.sinInvCalc(modeSelected, x); this.modeText("asin", x); trig = 1;
+        break;
 
-      case 'tan-1': retVal= this.tanInvCalc(modeSelected,x); this.modeText("atan",x);trig=1;
-      break;
+      case 'cos-1': retVal = this.cosInvCalc(modeSelected, x); this.modeText("acos", x); trig = 1;
+        break;
 
-      case 'sinh': retVal = (Math.pow(Math.E,x)- Math.pow(Math.E, -x))/2;
-      this.modeText(value,x);
-      break;
+      case 'tan-1': retVal = this.tanInvCalc(modeSelected, x); this.modeText("atan", x); trig = 1;
+        break;
 
-      case 'cosh': retVal = (Math.pow(Math.E, x) + Math.pow(Math.E, -x)) / 2; 
-      this.modeText(value,x);
-      break;
+      case 'sinh': retVal = (Math.pow(Math.E, x) - Math.pow(Math.E, -x)) / 2;
+        this.modeText(value, x);
+        break;
+
+      case 'cosh': retVal = (Math.pow(Math.E, x) + Math.pow(Math.E, -x)) / 2;
+        this.modeText(value, x);
+        break;
 
       case 'tanh':
-          retVal = (Math.pow(Math.E, x) - Math.pow(Math.E, -x));
-          retVal /= (Math.pow(Math.E, x) + Math.pow(Math.E, -x));
-          this.modeText(value,x);
-          break;
+        retVal = (Math.pow(Math.E, x) - Math.pow(Math.E, -x));
+        retVal /= (Math.pow(Math.E, x) + Math.pow(Math.E, -x));
+        this.modeText(value, x);
+        break;
 
       default: break;
 
@@ -753,25 +737,25 @@ btnMemory = e => {
     if (stackVal2 !== 3) { stackVal2 = 2; }
     stackVal1 = 3;
     boolClear = true;
-    
+
     if (retVal === 0 || retVal === strMathError || retVal === strInf) {
       console.log("valuuee", retVal)
       this.setState({
         inBox: [retVal],
       });
-      console.log("error occurs",retVal);
+      console.log("error occurs", retVal);
     } else if ((Math.abs(retVal) < 0.00000001 || Math.abs(retVal) > 100000000) && trig !== 1) {
     }
     else {
       console.log("retval", retVal);
-      if (retVal.toFixed(8) % 1 !== 0){
+      if (retVal.toFixed(8) % 1 !== 0) {
         var i = 1;
         while (i < 10) {
-          if ((retVal.toFixed(i) !== 0)&&(retVal.toFixed(i) / retVal.toFixed(i + 8) === 1)){retVal = retVal.toFixed(i); 
-            break; 
+          if ((retVal.toFixed(i) !== 0) && (retVal.toFixed(i) / retVal.toFixed(i + 8) === 1)) {
+            retVal = retVal.toFixed(i);
+            break;
           }
-          else
-          {
+          else {
             i++;
           }
         }
@@ -781,37 +765,37 @@ btnMemory = e => {
 
     if (retVal === -0)
       retVal = 0;
-    //inputBox.val(retVal);
+
     console.log("valuuee", retVal)
     this.setState({
       inBox: [retVal],
+      inBox1: [displayString]
     });
+    console.log("displayString", this.state.inBox1);
     trig = 0;
-    //inBox1.val(displayString);
+
+
+
+
+  }
+
+
+  componentDidUpdate() {
+    modeSelected = document.querySelector('input[name=degree_or_radian]:checked').value;
+    console.log("heheh", modeSelected);
+  }
+
+  //radian or degree radio buttons -- update into radian or degree modes
+  optionChange = e => {
+    var value = e.target.getAttribute('value');
     this.setState({
-      inBox1: [displayString],
-    });
-    //inputBox.focus();
-
-
+      selectedOption: value,
+    })
   }
 
 
-  componentDidUpdate () {
-modeSelected = document.querySelector('input[name=degree_or_radian]:checked').value;
-console.log("heheh",modeSelected);
-  }
 
-optionChange = e =>{
-  var value = e.target.getAttribute('value');
-  this.setState({
-    selectedOption:value,
- })
-}
-
-
-
-
+  //Display trignometric values along with labels.
   displayTrignometric = (text, x) => {
     console.log(stackVal2);
     if (stackVal2 === 1) {
@@ -835,12 +819,13 @@ optionChange = e =>{
     displayString = displayString + trigDisplay;
   }
 
-mode
+  mode
 
   inverseSineH = (inputVal) => {
     return Math.log(inputVal + Math.sqrt(inputVal * inputVal + 1));
   }
 
+    //Display degree or radian along with labels(eg:Sind or Sinr)
   modeText = (text, x) => {
     var mode = "d";
     if (modeSelected !== "deg") { mode = "r"; }
@@ -969,7 +954,7 @@ mode
   tanInvCalc = (mode, inputVal) => {
     var opVal;
     var ipVal = Math.atan(inputVal);
-    if (strNaN.indexOf(ipVal.toFixed(8))>-1) {
+    if (strNaN.indexOf(ipVal.toFixed(8)) > -1) {
       opVal = strMathError;
     } else {
       opVal = this.changeValOfInvBasedOnMode(mode, ipVal);
@@ -1011,13 +996,11 @@ mode
 
 
 
-
- btnCommand = async (e) => {
+  //for c,back and equalto operations
+  btnCommand = async (e) => {
     var value = e.target.getAttribute('value');
     var inBoxVal = this.state.inBox.join('');
     var inBox1Val = this.state.inBox1.join('');
-    var i = 0;
-    var j = 0;
     var strInput = inBoxVal;
     switch (value) {
       case "=": if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
@@ -1026,38 +1009,29 @@ mode
             stackArray.pop();
           }
           await this.oscBinaryOperation();
-          // this.setState({
-          //   inBox:[val],
-          // },() => {
-          //   console.log('inbox',this.state.inBox)
-          // });
-          // console.log('Returned value: ',val)
-          
           stackVal = stackArray[stackArray.length - 1];
           opCode = opCodeArray[opCodeArray.length - 1];
           stackArray.pop();
           opCodeArray.pop();
-        }; 
-        opCode = 0; /*inBox.focus();*/ displayString = ""; trigDisplay = ""; stackVal = strEmpty; openArray = [];
+        };
+        opCode = 0; 
+         displayString = ""; trigDisplay = ""; stackVal = strEmpty; openArray = [];
         if (stackVal1 !== 2) {
           if (stackVal1 === 3 || stackVal2 === 1) {
             if (stackVal2 !== 3) strInput = "";
           }
           if (newOpCode === 9) {
             if (strInput.indexOf("-") > -1)
-              // {inBox1Val(inBox1Val.substring(0,inBox1Val.lastIndexOf("+")));	
-              //    } 
+              
               this.setState({
                 inBox1: [inBox1Val.substring(0, inBox1Val.lastIndexOf("+"))],
               });
             else {
-              // inBox1Val(inBox1Val.replace("e+0","e+"));
               this.setState({
                 inBox1: [inBox1Val.replace("e+0", "e+")],
               });
             }
-          }
-          //inBox1Val(inBox1Val+strInput);		
+          }	
           this.setState({
             inBox1: [inBox1Val + strInput],
           });
@@ -1076,21 +1050,21 @@ mode
             inBox: [strInput.substring(0, strInput.length - 1)],
           });
           inBoxVal = this.state.inBox.join('');
-          if (inBoxVal === "-") 
+          if (inBoxVal === "-")
             this.setState({
               inBox: ["0"],
             });
           break;
         }
-        else
-        {
-        this.setState({
-          inBox:["0"],
-        });
-        break;
-      }}
+        else {
+          this.setState({
+            inBox: ["0"],
+          });
+          break;
+        }
+      }
       else
-      break;
+        break;
 
       case "c":
         this.setState({
@@ -1112,163 +1086,234 @@ mode
     }
   }
 
+  helpDisplay = () => {
+    this.setState({
+      display: "none",
+      displayText: "block",
+    })
+  }
+
+  helpHide = () => {
+    this.setState({
+      display: "block",
+      displayText: "none"
+    })
+  }
+
+  minimize = () => {
+    this.setState({
+      minimize: "ui-widget-content calc_container reduceWidth",
+
+      displayMain: 'none',
+      header: 'reduceHeader',
+      displayMax: 'block',
+    })
+  }
+
+  maximize = () => {
+    this.setState({
+      minimize: "ui-widget-content calc_container",
+      displayMain: "block",
+      header: "",
+      displayMax: "none",
+    })
+  }
 
 
 
 
   render() {
     return (
-      <div id="keyPad" className="ui-widget-content calc_container">
-         <div id="helptopDiv">
-	<span>Scientific Calculator</span>
-	<div href="#nogo" id="keyPad_Help" className="help_back"></div>
-	<div href="#nogo" id="keyPad_Helpback" className="help_back"></div>
-	</div>
-
-     <div className="calc_min" id="calc_min"></div>
-     
-	 <div className="calc_close" id="closeButton"></div>
-	 
-
-      <div className="mainContentArea">
-        <Display id="dis" data={this.state.inBox1} />
-        <div className="text_container">
-
-        <Display id="dis" data={this.state.inBox} />
-
-        <span id = "memory" className={this.state.mem}>
-          <font size="2">M</font>
-        </span>
+      <div id="keyPad" className={this.state.minimize}>
+        <div id="helptopDiv">
+          <span className={this.state.header}>Scientific Calculator</span>
+          <div href="#nogo" id="keyPad_Help" className="help_back" style={{ display: this.state.displayMain }} onClick={this.helpDisplay}>Help</div>
+          <div href="#nogo" id="keyPad_Helpback" className="help_back" style={{ display: this.state.displayText }} onClick={this.helpHide}>Back</div>
         </div>
-        <font size="2">
-          <div className="clear"></div>
-        <div className="left_sec">
-          <div className="calc_row clear">
-            <a href="#nogo" id="keyPad_btnMod" className="keyPad_btnBinaryOp" value="mod" onClick={this.btnBinary}>mod</a>
-          
-          <div className="degree_radian">
-            <input type="radio" name="degree_or_radian" value="deg" checked={this.state.selectedOption === "deg"} onChange={this.optionChange} />Deg
-            <input type="radio" name="degree_or_radian" value="rad" checked={this.state.selectedOption === "rad"} onChange={this.optionChange}/>Rad
+
+        <div className="calc_min" id="calc_min" onClick={this.minimize} style={{ display: this.state.displayMain }}></div>
+        <div className="calc_max" id="calc_max" onClick={this.maximize} style={{ display: this.state.displayMax }}> <i className="fa fa-window-maximize"></i></div>
+
+
+        <div className="calc_close" id="closeButton"></div>
+
+
+        <div className="mainContentArea" style={{ display: this.state.displayMain }}>
+          <Display id="dis" data={this.state.inBox1} display={this.state.display} />
+          <div className="text_container" style={{ display: this.state.display }}>
+
+            <Display id="dis" data={this.state.inBox} />
+
+            <span id="memory" className={this.state.mem}>
+              <font size="2">M</font>
+            </span>
           </div>
-          <a href="#nogo" id="keyPad_btnPi" className="keyHidden">&#960;</a>
-			  	<a href="#nogo" id="keyPad_btnE" className="keyHidden">e</a>
-				  <a href="#nogo" id="keyPad_btnE" className="keyHidden">e</a>
-          <a href="#nogo" id="keyPad_MC" className="keyPad_btnMemoryOp" value="MC" onClick={this.btnMemory}>MC</a>
-          <a href="#nogo" id="keyPad_MR" className="keyPad_btnMemoryOp" value="MR" onClick={this.btnMemory}>MR</a>
-          <a href="#nogo" id="keyPad_MS" className="keyPad_btnMemoryOp" value="MS" onClick={this.btnMemory}>MS</a>
-          <a href="#nogo" id="keyPad_M+" className="keyPad_btnMemoryOp" value="M+" onClick={this.btnMemory}>M+</a>
-          <a href="#nogo" id="keyPad_M-" className="keyPad_btnMemoryOp" value="M-" onClick={this.btnMemory}>M-</a>
+          <font size="2">
+            <div className="clear"></div>
+            <div className="left_sec" style={{ display: this.state.display }}>
+              <div className="calc_row clear">
+                <a href="#nogo" id="keyPad_btnMod" className="keyPad_btnBinaryOp" value="mod" onClick={this.btnBinary}>mod</a>
+
+                <div className="degree_radian">
+                  <input type="radio" name="degree_or_radian" value="deg" checked={this.state.selectedOption === "deg"} onChange={this.optionChange} />Deg
+            <input type="radio" name="degree_or_radian" value="rad" checked={this.state.selectedOption === "rad"} onChange={this.optionChange} />Rad
           </div>
-          <div className="calc_row clear">
-            <a href="#nogo" id="keyPad_btnSinH" className="keyPad_btnUnaryOp min" value="sinh" onClick={this.btnUnaryOp}>sinh</a>
-            <a href="#nogo" id="keyPad_btnCosinH" className="keyPad_btnUnaryOp min" value="cosh" onClick={this.btnUnaryOp}>cosh</a>
-            <a href="#nogo" id="keyPad_btnTgH" className="keyPad_btnUnaryOp min" value="tanh" onClick={this.btnUnaryOp} >tanh</a>
-            <a href="#nogo" id="keyPad_EXP" className="keyPad_btnBinaryOp" value="EXP" onClick={this.btnBinary}>Exp</a>
-            <a href="#nogo" id="keyPad_btnOpen" className="keyPad_btnBinaryOp" value="(" onClick={this.btnBinary}>(</a>
-            <a href="#nogo" id="keyPad_btnClose" className="keyPad_btnBinaryOp " value=")" onClick={this.btnBinary}>)</a>
-            <a href="#nogo" id="keyPad_btnBack" className="keyPad_btnCommand calc_arrows" value="back" onClick={this.btnCommand}>
-              &#8592;</a>
-            <a href="#nogo" id="keyPad_btnAllClr" className="keyPad_btnCommand" value="c" onClick={this.btnCommand}>C</a>
-            <a href="#nogo" id="keyPad_btnInverseSign" className="keyPad_btnUnaryOp" value="+/-" onClick={this.btnUnaryOp}>+/-</a>
-            <a href="#nogo" id="keyPad_btnSquareRoot" className="keyPad_btnUnaryOp" value="sqrt" onClick={this.btnUnaryOp}>v</a>
-          </div>
-          <div className="calc_row clear">
-            <a href="#nogo" id="keyPad_btnAsinH" className="keyPad_btnUnaryOp min" value="sinh-1" onClick={this.btnUnaryOp} >
-              {/* <span className="small" >sinh</span><sup>-1</sup> */}sinh-1
-              </a>
-            <a href="#nogo" id="keyPad_btnAcosH" className="keyPad_btnUnaryOp min" value="cosin" onClick={this.btnUnaryOp}>
-              {/* <span className="small" value="cosh-1" onClick={this.btnUnaryOp}>cosh</span><span className='superscript'>-1</span> */}
-              cosin
+                <a href="#nogo" id="keyPad_btnPi" className="keyHidden">&#960;</a>
+                <a href="#nogo" id="keyPad_btnE" className="keyHidden">e</a>
+                <a href="#nogo" id="keyPad_btnE" className="keyHidden">e</a>
+                <a href="#nogo" id="keyPad_MC" className="keyPad_btnMemoryOp" value="MC" onClick={this.btnMemory}>MC</a>
+                <a href="#nogo" id="keyPad_MR" className="keyPad_btnMemoryOp" value="MR" onClick={this.btnMemory}>MR</a>
+                <a href="#nogo" id="keyPad_MS" className="keyPad_btnMemoryOp" value="MS" onClick={this.btnMemory}>MS</a>
+                <a href="#nogo" id="keyPad_M+" className="keyPad_btnMemoryOp" value="M+" onClick={this.btnMemory}>M+</a>
+                <a href="#nogo" id="keyPad_M-" className="keyPad_btnMemoryOp" value="M-" onClick={this.btnMemory}>M-</a>
+              </div>
+              <div className="calc_row clear">
+                <a href="#nogo" id="keyPad_btnSinH" className="keyPad_btnUnaryOp min" value="sinh" onClick={this.btnUnaryOp}>sinh</a>
+                <a href="#nogo" id="keyPad_btnCosinH" className="keyPad_btnUnaryOp min" value="cosh" onClick={this.btnUnaryOp}>cosh</a>
+                <a href="#nogo" id="keyPad_btnTgH" className="keyPad_btnUnaryOp min" value="tanh" onClick={this.btnUnaryOp} >tanh</a>
+                <a href="#nogo" id="keyPad_EXP" className="keyPad_btnBinaryOp" value="EXP" onClick={this.btnBinary}>Exp</a>
+                <a href="#nogo" id="keyPad_btnOpen" className="keyPad_btnBinaryOp" value="(" onClick={this.btnBinary}>(</a>
+                <a href="#nogo" id="keyPad_btnClose" className="keyPad_btnBinaryOp " value=")" onClick={this.btnBinary}>)</a>
+                <a href="#nogo" id="keyPad_btnBack" className="keyPad_btnCommand calc_arrows" value="back" onClick={this.btnCommand}>
+                  &#8592;</a>
+                <a href="#nogo" id="keyPad_btnAllClr" className="keyPad_btnCommand" value="c" onClick={this.btnCommand}>C</a>
+                <a href="#nogo" id="keyPad_btnInverseSign" className="keyPad_btnUnaryOp" value="+/-" onClick={this.btnUnaryOp}>+/-</a>
+                <a href="#nogo" id="keyPad_btnSquareRoot" className="keyPad_btnUnaryOp" value="sqrt" onClick={this.btnUnaryOp}>&#8730;</a>
+              </div>
+              <div className="calc_row clear">
+                <a href="#nogo" id="keyPad_btnAsinH" className="keyPad_btnUnaryOp min" value="sinh-1" onClick={this.btnUnaryOp} >
+                  sinh<span value="sinh-1" className='superscript'>-1</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnAcosH" className="keyPad_btnUnaryOp min" value="cosh-1" onClick={this.btnUnaryOp}>
+                  cosh<span value="cosh-1" className='superscript'>-1</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnAtanH" className="keyPad_btnUnaryOp min" value="tanh-1" onClick={this.btnUnaryOp} >
+                  tanh<span value="tanh-1" className='superscript'>-1</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnLogBase2" className="keyPad_btnUnaryOp" value="logbase2" onClick={this.btnUnaryOp} >
+                  log<span value="logbase2" className="subscript">2</span>x
             </a>
-            <a href="#nogo" id="keyPad_btnAtanH" className="keyPad_btnUnaryOp min" value="tanh-1" onClick={this.btnUnaryOp} >
-            {/* <span className="small" value="tanh-1" onClick={this.btnUnaryOp}>tanh</span><span className='superscript'>-1</span> */}tanh-1
-            </a>
-            <a href="#nogo" id="keyPad_btnLogBase2" className="keyPad_btnUnaryOp" value="logbase2" onClick={this.btnUnaryOp} >
-              {/* <span value="logbase2" onClick={this.btnUnaryOp}>log</span>
-              <span value="logbase2" onClick={this.btnUnaryOp} className="subscript">2</span>
-              <span value="logbase2" onClick={this.btnUnaryOp}>x</span> */}log2x
-            </a>
-            <a href="#nogo" id="keyPad_btnLn" className="keyPad_btnUnaryOp" value="ln" onClick={this.btnUnaryOp}>ln</a>
-          <a href="#nogo" id="keyPad_btnLg" className="keyPad_btnUnaryOp" value="log" onClick={this.btnUnaryOp}>log</a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="7">7</a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="8">8</a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="9">9</a>
-          <a href="#nogo" id="keyPad_btnDiv" className="keyPad_btnBinaryOp" value="/" onClick={this.btnBinary}>/</a>
-          <a href="#nogo" id="keyPad_%" className="keyPad_btnBinaryOp" value="%" onClick={this.btnBinary}>%</a>
+                <a href="#nogo" id="keyPad_btnLn" className="keyPad_btnUnaryOp" value="ln" onClick={this.btnUnaryOp}>ln</a>
+                <a href="#nogo" id="keyPad_btnLg" className="keyPad_btnUnaryOp" value="log" onClick={this.btnUnaryOp}>log</a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="7">7</a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="8">8</a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="9">9</a>
+                <a href="#nogo" id="keyPad_btnDiv" className="keyPad_btnBinaryOp" value="/" onClick={this.btnBinary}>/</a>
+                <a href="#nogo" id="keyPad_%" className="keyPad_btnBinaryOp" value="%" onClick={this.btnBinary}>%</a>
+              </div>
+              <div className="calc_row clear">
+                <a href="#nogo" id="keyPad_btnPi" className="keyPad_btnConst" onClick={this.buttonConst} value="p">&#960;</a>
+                <a href="#nogo" id="keyPad_btnE" className="keyPad_btnConst" onClick={this.buttonConst} value="keyPad_btnE">e</a>
+                <a href="#nogo" id="keyPad_btnFact" className="keyPad_btnUnaryOp" value="fact" onClick={this.btnUnaryOp}>n!</a>
+                <a href="#nogo" id="keyPad_btnYlogX" className="keyPad_btnBinaryOp" value="YlogX" onClick={this.btnBinary} >
+
+                  log<span value="logbase2" className="subscript">y</span>x
+          </a>
+                <a href="#nogo" id="keyPad_EXP" className="keyPad_btnBinaryOp" value="exp" onClick={this.btnUnaryOp}>
+                  e<span value="exp" className="superscript">x</span>
+                </a>
+                <a href="#nogo" id="keyPad_btn10X" className="keyPad_btnUnaryOp" value="10^x" onClick={this.btnUnaryOp}>
+
+                  10<span value="10^x" className="superscript">x</span>
+                </a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="4">4</a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="5">5</a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="6">6</a>
+                <a href="#nogo" id="keyPad_btnMult" className="keyPad_btnBinaryOp" value="*" onClick={this.btnBinary}>*</a>
+                <a href="#nogo" id="keyPad_btnInverse" className="keyPad_btnUnaryOp" value="1/x" onClick={this.btnUnaryOp}>1/x</a>
+              </div>
+              <div className="calc_row clear">
+                <a href="#nogo" id="keyPad_btnSin" className="keyPad_btnUnaryOp min" value="sin" onClick={this.btnUnaryOp}>sin</a>
+                <a href="#nogo" id="keyPad_btnCosin" className="keyPad_btnUnaryOp min" value="cos" onClick={this.btnUnaryOp}>cos</a>
+
+                <a href="#nogo" id="keyPad_btnTg" className="keyPad_btnUnaryOp min" value="tan" onClick={this.btnUnaryOp}>tan</a>
+                <a href="#nogo" id="keyPad_btnYpowX" className="keyPad_btnBinaryOp" value="XpowY" onClick={this.btnBinary}>
+                  x<span value="XpowY" className="superscript">y</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnCube" className="keyPad_btnUnaryOp" value="xCube" onClick={this.btnUnaryOp}>
+                  x<span value="xCube" className="superscript">3</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnSquare" className="keyPad_btnUnaryOp" value="x^2" onClick={this.btnUnaryOp} >
+
+                  x<span value="x^2" className="superscript">2</span>
+                </a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="1">1</a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="2">2</a>
+                <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="3">3</a>
+                <a href="#nogo" id="keyPad_btnMinus" className="keyPad_btnBinaryOp" value="-" onClick={this.btnBinary}>-</a>
+              </div>
+              <div className="calc_row clear">
+                <a href="#nogo" id="keyPad_btnAsin" className="keyPad_btnUnaryOp min" value="sin-1" onClick={this.btnUnaryOp}>
+                  sin<span value="sin-1" className="superscript">-1</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnAcos" className="keyPad_btnUnaryOp min" value="cos-1" onClick={this.btnUnaryOp}>
+                  cos<span value="cos-1" className="superscript">-1</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnAtan" className="keyPad_btnUnaryOp min" value="tan-1" onClick={this.btnUnaryOp}>
+                  tan<span value="tan-1" className="superscript">-1</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnYrootX" className="keyPad_btnBinaryOp" value="YrootX" onClick={this.btnBinary}>
+                  <span value="YrootX" className="superscript" style={{ top: '-8px' }}>y</span>
+                  <span value="YrootX" style={{ fontSize: '1.2em', margin: '-6px 0 0 -9px' }}>&#8730;x</span>
+                </a>
+                <a href="#nogo" id="keyPad_btnCubeRoot" className="keyPad_btnUnaryOp" value="cbrt" onClick={this.btnUnaryOp}>&#8731; </a>
+                <a href="#nogo" id="keyPad_btnAbs" className="keyPad_btnUnaryOp" value="abs" onClick={this.btnUnaryOp} >|x|</a>
+                <a href="#nogo" id="keyPad_btn0" className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="0">0</a>
+                <a href="#nogo" id="keyPad_btnDot" className="keyPad_btnNumeric" onClick={this.buttonNumeric} value=".">.</a>
+                <a href="#nogo" id="keyPad_btnPlus" className="keyPad_btnBinaryOp" value="+" onClick={this.btnBinary}>+</a>
+                <a href="#nogo" id="keyPad_btnEnter" className="keyPad_btnCommand " value="=" onClick={this.btnCommand}>=</a>
+              </div>
+
             </div>
-          <div className="calc_row clear">
-          <a href="#nogo" id="keyPad_btnPi" className="keyPad_btnConst" onClick={this.buttonConst} value="p">p</a>
-          <a href="#nogo" id="keyPad_btnE" className="keyPad_btnConst" onClick={this.buttonConst} value="keyPad_btnE">e</a>
-          <a href="#nogo" id="keyPad_btnFact" className="keyPad_btnUnaryOp" value="fact" onClick={this.btnUnaryOp}>n!</a>
-          <a href="#nogo" id="keyPad_btnYlogX" className="keyPad_btnBinaryOp" value="YlogX" onClick={this.btnBinary} >
-            {/* <span value="YlogX" onClick={this.btnBinary}>log</span>
-            <span value="YlogX" onClick={this.btnBinary} className="subscript">y</span>
-            <span value="YlogX" onClick={this.btnBinary}>x</span> */}logyx
-          </a>
-          <a href="#nogo" id="keyPad_EXP" className="keyPad_btnBinaryOp" value="exp" onClick={this.btnUnaryOp}>ex</a>
-          <a href="#nogo" id="keyPad_btn10X" className="keyPad_btnUnaryOp" value="10^x" onClick={this.btnUnaryOp}>
-            {/* <span className="baseele">10</span><span className="superscript">x</span> */}10x
-          </a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="4">4</a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="5">5</a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="6">6</a>
-          <a href="#nogo" id="keyPad_btnMult" className="keyPad_btnBinaryOp" value="*" onClick={this.btnBinary}>*</a>
-          <a href="#nogo" id="keyPad_btnInverse" className="keyPad_btnUnaryOp" value="1/x" onClick={this.btnUnaryOp}>1/x</a>
-          </div>
-          <div className="calc_row clear">
-         `   <a href="#nogo" id="keyPad_btnSin" className="keyPad_btnUnaryOp min" value="sin" onClick={this.btnUnaryOp}>sin</a>
-            <a href="#nogo" id="keyPad_btnCosin" className="keyPad_btnUnaryOp min" value="cos" onClick={this.btnUnaryOp}>cos</a>
-          
-            <a href="#nogo" id="keyPad_btnTg" className="keyPad_btnUnaryOp min" value="tan" onClick={this.btnUnaryOp}>tan</a>
-            <a href="#nogo" id="keyPad_btnYpowX" className="keyPad_btnBinaryOp" value="YpowX" onClick={this.btnBinary}>`
-            xy
-          </a>
-          <a href="#nogo" id="keyPad_btnCube" className="keyPad_btnUnaryOp" value="xCube" onClick={this.btnUnaryOp}>
-          x3</a>
-          <a href="#nogo" id="keyPad_btnSquare" className="keyPad_btnUnaryOp" value="x^2" onClick={this.btnUnaryOp} >
-            {/* <span className="baseele">x</span><span className="superscript">2</span> */}x2
-            </a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="1">1</a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="2">2</a>
-          <a href="#nogo" ref={this.myRef} className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="3">3</a>
-          <a href="#nogo" id="keyPad_btnMinus" className="keyPad_btnBinaryOp" value="-" onClick={this.btnBinary}>-</a>
-          </div>
-          <div className="calc_row clear">
-          <a href="#nogo" id="keyPad_btnAsin" className="keyPad_btnUnaryOp min" value="sin-1" onClick={this.btnUnaryOp}>sin-1</a>
-          <a href="#nogo" id="keyPad_btnAcos" className="keyPad_btnUnaryOp min" value="cos-1" onClick={this.btnUnaryOp}>cos-1</a>
-          <a href="#nogo" id="keyPad_btnAtan" className="keyPad_btnUnaryOp min" value="tan-1" onClick={this.btnUnaryOp}>tan-1</a>
-          <a href="#nogo" id="keyPad_btnYrootX" className="keyPad_btnBinaryOp" value="YrootX" onClick={this.btnBinary}>
-            y
-            vx
-        </a>
-        <a href="#nogo" id="keyPad_btnCubeRoot" className="keyPad_btnUnaryOp" value="cbrt" onClick={this.btnUnaryOp}>?</a>
-        <a href="#nogo" id="keyPad_btnAbs" className="keyPad_btnUnaryOp" value="abs" onClick={this.btnUnaryOp} >|x|</a>
-        <a href="#nogo" id="keyPad_btn0" className="keyPad_btnNumeric" onClick={this.buttonNumeric} value="0">0</a>
-        <a href="#nogo" id="keyPad_btnDot" className="keyPad_btnNumeric" onClick={this.buttonNumeric} value=".">.</a>
-        <a href="#nogo" id="keyPad_btnPlus" className="keyPad_btnBinaryOp" value="+" onClick={this.btnBinary}>+</a>
-        <a href="#nogo" id="keyPad_btnEnter" className="keyPad_btnCommand " value="=" onClick={this.btnCommand}>=</a>
-          </div>
+            <div className="clear"></div>
+            {/* help COntent */}
 
+            <div id="helpContent" style={{ display: this.state.displayText }}>
+              <h3 style={{ textAlign: 'center' }}><strong>Calculator Instructions</strong></h3>
+              Allows you to perform basic and complex mathematical operations such as modulus, square root, cube root, trigonometric, exponential, logarithmic, hyperbolic functions, etc.
+		  <br /> You can operate the calculator using the buttons provided on screen with your mouse. <br />
+              <br />
+              <h3 style={{ textDecoration: 'underline', color: 'green' }} >Do's:</h3>
+              <ul>
+                <li> Be sure to press [C] when beginning a new calculation.</li>
+                <li> Simply an equation using parenthesis and other mathematical operators.</li>
+                <li> Use the predefined operations such as p (Pi), log, Exp to save time during calculation.</li>
+                <li> Use memory function for calculating cumulative totals.</li>
+                <strong>
+                  [M+]: Will add displayed value to memory.
+		<br />
+                  [MR]: Will recall the value stored in memory.
+		<br />
+                  [M-]: Subtracts the displayed value from memory.
+		</strong>
+                <li> Be sure select the angle unit (Deg or Rad) before beginning any calculation.</li>
+                <strong>Note: By default angle unit is set as Degree</strong>
+              </ul>
+              <h3><span style={{ textDecoration: 'underline', color: 'red' }}>Dont's:</span></h3>
+              <ul>
+                <li> Perform multiple operations together.</li>
+                <li> Leave parenthesis unbalanced.</li>
+                <li> Change the angle unit (Deg or Rad) while performing a calculation..</li>
+              </ul>
+              <h3><span style={{ textDecoration: 'underline' }}>Limitations:</span></h3>
+              <ul>
+                <li> Keyboard operation is disabled.</li>
+                <li> The output for a Factorial calculation is precise up to 14 digits.</li>
+                <li> The output for Logarithmic and Hyperbolic calculations is precise up to 5 digits.</li>
+                <li> Modulus (mod) operation performed on decimal numbers with 15 digits would not be precise.</li>
+                <br />
+                <strong> Use mod operation only if the number comprises of less than 15 digits i.e. mod operation provides best results for smaller numbers.</strong>
+                <br />
+                <li>The range of value supported by the calculator is 10(-323) to 10(308).</li>
+              </ul>
+              <br />
+              <br />
+            </div>
+
+            {/* help Content end */}
+
+          </font>
         </div>
-<div className="clear"></div>
-        
-        
-  
-          
-          
-
-          
-
-
-
-
-
-
-
-
-        
-        </font>
-      </div>
       </div>
     );
   }

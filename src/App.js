@@ -147,7 +147,6 @@ class App extends Component {
           }
         }
         stackVal1 = 0;
-        console.log("Stack array after *", stackArray)
         break;
       case '/': this.stackCheck(value);
         newOpCode = 4;
@@ -302,7 +301,6 @@ class App extends Component {
             else {
               await this.oscBinaryOperation();
               stackVal = stackArray[stackArray.length - 1];
-              console.log("Stack Value in bibnary", stackVal);
               if (stackVal === "{") {
                 stackArray.pop();
                 opCode = 0;
@@ -347,7 +345,6 @@ class App extends Component {
     else {
 
       stackVal = parseFloat(this.state.inBox.join(''));
-      console.log("ssssssssssssss", stackVal);
       boolClear = true;
     }
     opCode = newOpCode;
@@ -413,8 +410,6 @@ class App extends Component {
 
   //Check the stack - to check which operator or symbol is present on top of the stack.
   stackCheck = async (text) => {
-    console.log("Stackval1", stackVal1);
-    console.log("hey");
     var inBox1Val = this.state.inBox1.join('');
     var inBoxVal = this.state.inBox.join('');
     var upDinbox1 = inBox1Val;
@@ -453,7 +448,6 @@ class App extends Component {
       inBox1Val = this.state.inBox1.join('');
       stackVal2 = 0;
       displayString = upDinbox1 + text;
-      console.log("hey");
     }
     else {
       if (inBox1Val.indexOf("e+0") > -1 && inBoxVal.indexOf("-") > -1)
@@ -461,7 +455,6 @@ class App extends Component {
       else if ((inBox1Val.indexOf("e+0") > -1))
         upDinbox1 = inBox1Val.replace("e+0", "e+");
       displayString = upDinbox1 + inBoxVal + text;
-      console.log("hey1");
     }
   }
 
@@ -471,7 +464,6 @@ class App extends Component {
       if (opCode === 10) {
         opCode = opCodeArray[opCodeArray.length - 1];
         stackVal = stackArray[stackArray.length - 1];
-        console.log("stackValue in operation", stackVal);
         if (newOpCode === 1 || newOpCode === 2 || newOpCode <= opCode) {
           opCodeArray.pop();
           stackArray.pop();
@@ -487,7 +479,6 @@ class App extends Component {
       else {
         await this.oscBinaryOperation();
         stackVal = stackArray[stackArray.length - 1];
-        console.log("stackValue in operation", stackVal);
         if (stackVal === "{") {
           opCode = 0;
           break;
@@ -525,8 +516,6 @@ class App extends Component {
   //Check the values in the display.
   displayCheck = async () => {
     var inBox1Val = this.state.inBox1.join('');
-    console.log("inside funct", inBox1Val)
-    console.log("stackVal1", stackVal1);
     switch (stackVal1) {
       case 2: this.setState({
         inBox1: [],
@@ -550,16 +539,14 @@ class App extends Component {
         stackVal2 = 6;
         break;
 
-      default: console.log("inside default"); break;
+      default: break;
     }
   }
 
   //Perform binary operations
   oscBinaryOperation = () => {
     var inBoxVal = this.state.inBox.join('');
-    console.log('inbox updated', this.state.inBox)
     var x2 = parseFloat(inBoxVal);
-    console.log("x2", x2);
     var retVal = 0;
     switch (opCode) {
       case 9: stackVal = parseFloat(stackVal) * Math.pow(10, x2);
@@ -609,7 +596,6 @@ class App extends Component {
         retVal = retVal.toFixed(0);
       }
     }
-
     this.setState({
       inBox: [retVal],
   
@@ -626,8 +612,6 @@ class App extends Component {
     var value = e.target.getAttribute('value');
     var inBoxVal = this.state.inBox.join('');
     var x = parseFloat(inBoxVal);
-    console.log(x)
-    console.log(typeof (value));
     var retVal = oscError;
     if (inBoxVal.indexOf("Infinity") > -1 || inBoxVal.indexOf(strMathError) > -1) return;
     switch (value) {
@@ -646,8 +630,7 @@ class App extends Component {
         this.displayTrignometric("sqrt", x);
       } break;
       // X^3                                 
-      case "xCube": console.log(x)
-
+      case "xCube":
         retVal = x * x * x; this.displayTrignometric("cube", x); break;            // POW (X, 1/3)                                 
       case "cbrt": retVal = this.nthroot(x, 3); this.displayTrignometric("cuberoot", x); break;
       // NATURAL LOG                                 
@@ -672,7 +655,7 @@ class App extends Component {
 
 
       //Factorial
-      case "fact": console.log(x)
+      case "fact": 
         retVal = this.factorial(x);
         this.displayTrignometric("fact", x);
         break;
@@ -703,7 +686,7 @@ class App extends Component {
       //Log Base 2
       case "logbase2": retVal = Math.log(x) / Math.log(2);
         this.displayTrignometric("logXbase2", x);
-        console.log("retuen value", retVal);
+        
         break;
       case 'sin-1': retVal = this.sinInvCalc(modeSelected, x); this.modeText("asin", x); trig = 1;
         break;
@@ -739,15 +722,12 @@ class App extends Component {
     boolClear = true;
 
     if (retVal === 0 || retVal === strMathError || retVal === strInf) {
-      console.log("valuuee", retVal)
       this.setState({
         inBox: [retVal],
       });
-      console.log("error occurs", retVal);
     } else if ((Math.abs(retVal) < 0.00000001 || Math.abs(retVal) > 100000000) && trig !== 1) {
     }
     else {
-      console.log("retval", retVal);
       if (retVal.toFixed(8) % 1 !== 0) {
         var i = 1;
         while (i < 10) {
@@ -765,24 +745,16 @@ class App extends Component {
 
     if (retVal === -0)
       retVal = 0;
-
-    console.log("valuuee", retVal)
     this.setState({
       inBox: [retVal],
       inBox1: [displayString]
     });
-    console.log("displayString", this.state.inBox1);
     trig = 0;
-
-
-
-
   }
 
 
   componentDidUpdate() {
     modeSelected = document.querySelector('input[name=degree_or_radian]:checked').value;
-    console.log("heheh", modeSelected);
   }
 
   //radian or degree radio buttons -- update into radian or degree modes
@@ -797,7 +769,6 @@ class App extends Component {
 
   //Display trignometric values along with labels.
   displayTrignometric = (text, x) => {
-    console.log(stackVal2);
     if (stackVal2 === 1) {
       var string = "";
       for (var i = openArray.length; i >= 0; i--) {
@@ -965,7 +936,6 @@ class App extends Component {
 
   //Factorial Function
   factorial = (n) => {
-    console.log("Inside fact", n)
     if (n > 170) return strInf;
     if (n === 1 || n === 0) return 1;
     else if (n < 0) return strMathError;
